@@ -1,0 +1,49 @@
+﻿html, body{
+    width: 100%;
+    height: 100%;
+}
+body {    
+    display: flex;
+    flex-flow: column;
+}
+
+body > * {
+    flex: 1 100%;
+}
+
+.body-content {
+    padding-top: 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row;
+}
+
+.parameters-col{
+    width: 400px;
+    margin: 10px;
+}
+
+.parameters-col > .row {
+    padding-bottom: 15px
+}
+
+.visual-col {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+.canvas-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+canvas{
+    border: 1px solid black;
+}
+
+
+.plot-container {
+    text-align: center;
+    height: 200px;
+}

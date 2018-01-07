@@ -1,0 +1,42 @@
+﻿<script>
+    $('document').ready(function () {
+        main = new Main();
+        visualizer = new Visualizer();
+        main.addEventListener("onPointsGenerated", function (points) { visualizer.DrawPoints(points); });
+        main.addEventListener("onPathUpdated", function (points, ids, score) { visualizer.UpdatePath(points, ids, score); })
+    });    
+</script>
+<div class="parameters-col">
+    <div class="row">
+        <div class="col-md-8">
+            <button class="btn btn-primary btn-block" onclick="main.GeneratePoints();">Generate graph</button>
+        </div>
+        <div class="col-md-4">
+            <input id="point-number" type="number" class="form-control" min="5" max="300" value="100"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <select id="algorithm-type" class="form-control">
+                <option value="abo">African Buffalo Optimization</option>
+                <option value="de">Differential evolution</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-success btn-block" onclick="main.Start();">Start</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-danger btn-block" onclick="main.Stop();">Stop</button>
+        </div>
+    </div>
+</div>
+<div class="visual-col">
+    <div class="canvas-container">
+        <canvas id="graph-canvas" width="700" height="450"></canvas>
+    </div>
+    <div class="plot-container">
+        <canvas id="plot" width="700" height="200"></canvas>
+    </div>
+</div>
