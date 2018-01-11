@@ -2,9 +2,47 @@
     $('document').ready(function () {
         main = new Main();
         visualizer = new Visualizer();
-        main.addEventListener("onPointsGenerated", function (points) { visualizer.DrawPoints(points); });
+        main.addEventListener("onPointsGenerated", function (points) { visualizer.DrawPoints(points); visualizer.UpdateScore([]); });
         main.addEventListener("onPathUpdated", function (points, ids, score) { visualizer.UpdatePath(points, ids, score); })
-    });    
+        function validateValue(s, min, max, recommended) {
+            var value = s.value;
+            if (isNaN(parseInt(value)) || value < min || value > max) {
+                s.value = recommended;
+            }
+        }
+        $("#point-number").blur(function (s, e) {
+            validateValue(this, 1, 100, 40);
+        });
+        $("#buffalo_l1").blur(function (s, e) {
+            validateValue(this, 0, 1, 0.5);
+        });
+        $("#buffalo_l2").blur(function (s, e) {
+            validateValue(this, 0, 1, 0.5);
+        });
+        $("#buffalo_population").blur(function (s, e) {
+            validateValue(this, 1, 50, 10);
+        });
+        $("#de_population").blur(function (s, e) {
+            validateValue(this, 1, 50, 30);
+        });
+        $("#de_len1").blur(function (s, e) {            
+            val = parseInt(document.getElementById("point-number").value) - 1;
+            validateValue(this, 1, val, val);
+        });
+        $("#de_len2").blur(function (s, e) {
+            val = parseInt(document.getElementById("point-number").value) - 1;
+            validateValue(this, 1, val, val);            
+        });
+        $("#algorithm-type").change(function (s) {
+            if (this.value == "abo") {
+                $("#buffalo-parameters").show();
+                $("#de-parameters").hide();
+            } else {
+                $("#buffalo-parameters").hide();
+                $("#de-parameters").show();
+            }
+        });
+    });
 </script>
 <div class="parameters-col">
     <div class="row">
@@ -12,7 +50,7 @@
             <button class="btn btn-primary btn-block" onclick="main.GeneratePoints();">Generate graph</button>
         </div>
         <div class="col-md-4">
-            <input id="point-number" type="number" class="form-control" min="5" max="300" value="100"/>
+            <input id="point-number" type="number" class="form-control" min="5" max="300" value="40" />
         </div>
     </div>
     <div class="row">
@@ -21,6 +59,34 @@
                 <option value="abo">African Buffalo Optimization</option>
                 <option value="de">Differential evolution</option>
             </select>
+        </div>
+    </div>
+    <div id="buffalo-parameters" class="parameters">
+        <div class="row">
+            <div class="col-md-4">L1</div>
+            <div class="col-md-8"><input class="form-control" id="buffalo_l1" value="0.4" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">L2</div>
+            <div class="col-md-8"><input class="form-control" id="buffalo_l2" value="0.4" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Population</div>
+            <div class="col-md-8"><input type="number" class="form-control" id="buffalo_population" value="10" /></div>
+        </div>
+    </div>
+    <div id="de-parameters" style="display:none;" class="parameters">
+        <div class="row">
+            <div class="col-md-4">Len 1</div>
+            <div class="col-md-8"><input class="form-control" id="de_len1" value="25" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Len 2</div>
+            <div class="col-md-8"><input class="form-control" id="de_len2" value="25" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Populations</div>
+            <div class="col-md-8"><input type="number" class="form-control" id="de_population" value="50" min="0" max="50" /></div>
         </div>
     </div>
     <div class="row">
@@ -36,7 +102,10 @@
     <div class="canvas-container">
         <canvas id="graph-canvas" width="700" height="450"></canvas>
     </div>
-    <div class="plot-container">
-        <canvas id="plot" width="700" height="200"></canvas>
+    <div class="row info">
+        <div class="col-md-6">Score: <span id="score"></span></div>
+        <div class="col-md-6">Iteration: <span id="iter"></span></div>
+    </div>
+    <div class="plot-container"><div id="plot"></div>
     </div>
 </div>

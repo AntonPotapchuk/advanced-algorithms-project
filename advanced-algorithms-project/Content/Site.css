@@ -15,7 +15,9 @@ body > * {
     padding-top: 50px;
     box-sizing: border-box;
     display: flex;
-    flex-flow: row;
+    flex-flow: row-reverse;
+    width:1000px;
+    margin:auto;
 }
 
 .parameters-col{
@@ -23,7 +25,7 @@ body > * {
     margin: 10px;
 }
 
-.parameters-col > .row {
+.parameters-col .row {
     padding-bottom: 15px
 }
 
@@ -42,8 +44,15 @@ canvas{
     border: 1px solid black;
 }
 
-
 .plot-container {
     text-align: center;
     height: 200px;
+}
+#plot{
+    margin:auto;
+    height: 100%;
+    width: 700px;
+}
+.info {
+    width:700px;
 }
